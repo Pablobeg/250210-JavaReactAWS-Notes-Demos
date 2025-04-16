@@ -53,5 +53,23 @@ public class NonAccessDriver {
         // I can call static methods without ANY instances
         Employee.setCompanyName("Multivision llc");
 
+        Admin admin  = new Admin("Admin");
+        // In this case the companyName variable is declared a static variable in the Parent Class called Employee
+        // Even though Admin is a child class we updated this value and it affected all of the employees
+        // An Admin is an Employee because Admin extends Employee
+        Admin.setCompanyName("Test");
+
+        admin.introduceCompany();
+        e1.introduceCompany();
+        e2.introduceCompany();
+        e3.introduceCompany();
+        e4.introduceCompany();
+
+        Person p1 = new Person();
+        Person.lastName = "Smith";
+        p1.name = "John";
+
+        System.out.println(admin);
+
     }
 }

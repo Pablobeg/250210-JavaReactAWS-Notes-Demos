@@ -35,7 +35,7 @@ public class Person{
     @Override
     public String toString(){
         return "Person {" +
-                " name: " + this.name +
+                "name: " + this.name +
                 ", age: " + this.age +
                 ", firstInitial: " + this.firstInitial + "}";
     }
