@@ -180,22 +180,159 @@ DROP TABLE pets;
  * 	- This verifies the data matches a specific criteria
  * 	- Age > 0
  * - DEFAULT
- * 	- Enters in a default value for a column if non is provided
+ * 	- Enters in a default value for a column if none is provided
  */
 
 CREATE TABLE EMPLOYEES(
+	-- SERIAL is a sub datatype of int (all serial values are int)
+	-- SERIAL is nice since it will auto increment the values for this column so I don't have to specify anything
+	employee_id serial PRIMARY KEY,
+	name TEXT NOT NULL,
+	email TEXT UNIQUE,
+--	age int CHECK (age > 0),
+	salary decimal(10,2) CHECK (salary > 0),
+	is_manager bool DEFAULT false
+); 
+
+-- Test some constraints
+INSERT INTO employees VALUES 
+(1, 'Bryan Serfozo', 'bryan.serfozo@revature.com', 25, TRUE);
+
+-- Let's try entering a NULL Name
+INSERT INTO EMPLOYEES VALUES 
+(2, NULL, 'kgraves@example.com', 26, false);
+-- This doesn't work because we cannot enter in a null name
+
+-- Email is supposed to be UNIQUE so let's test that
+INSERT INTO EMPLOYEES VALUES 
+(2, 'Kaitlyn Graves', 'bryan.serfozo@revature.com', 26, false);
+-- This doesn't work because the email was already taken
+
+-- Let's test our primary key
+INSERT INTO EMPLOYEES VALUES 
+(NULL, 'Kaitlyn Graves', 'kgraves@example.com', 26, false);
+INSERT INTO EMPLOYEES VALUES 
+(1, 'Kaitlyn Graves', 'kgraves@example.com', 26, false);
+-- The first one doesn't work because the id is NULL and the second doesn't work because the id is already taken
+
+-- Check makes sure everything follows the rules specified by the constraint
+INSERT INTO EMPLOYEES VALUES 
+(2, 'Kaitlyn Graves', 'kgraves@example.com', -37, false);
+-- Doesn't work because age is less than 0
+
+-- DEFAULT provides a value in the event we do not provide one ourselves
+INSERT INTO EMPLOYEES (employee_id, name, age) VALUES 
+(2, 'Kaitlyn Graves', 26);
+
+SELECT * FROM EMPLOYEES;
+
+DROP TABLE EMPLOYEES;
 
 
-)
+-- Let's insert in some records to do some DML statements
+-- Adding in mock data from mockaroo
+insert into employees (name, email, salary, is_manager) values ('Son Mulvey', 'smulvey0@bravesites.com', 21558.84, null);
+insert into employees (name, email, salary, is_manager) values ('Lutero Mumbey', 'lmumbey1@nasa.gov', 93366.33, true);
+insert into employees (name, email, salary, is_manager) values ('Pauli Beveredge', 'pbeveredge2@com.com', 94077.56, false);
+insert into employees (name, email, salary, is_manager) values ('Annmaria Tombs', 'atombs3@dagondesign.com', 53270.62, true);
+insert into employees (name, email, salary, is_manager) values ('Devonna Rappaport', 'drappaport4@usnews.com', 56003.3, false);
+insert into employees (name, email, salary, is_manager) values ('Correy Soames', 'csoames5@indiatimes.com', 45124.9, true);
+insert into employees (name, email, salary, is_manager) values ('Brady Egger', 'begger6@dailymotion.com', 46126.32, false);
+insert into employees (name, email, salary, is_manager) values ('Symon Rustan', 'srustan7@tmall.com', 19888.2, false);
+insert into employees (name, email, salary, is_manager) values ('Jamie McGuire', 'jmcguire8@e-recht24.de', 60931.31, true);
+insert into employees (name, email, salary, is_manager) values ('Denice Ind', 'dind9@dailymail.co.uk', 33100.14, true);
+insert into employees (name, email, salary, is_manager) values ('Xenos Schafer', 'xschafera@discuz.net', 28840.32, true);
+insert into employees (name, email, salary, is_manager) values ('Janice Stickins', 'jstickinsb@goodreads.com', 13400.78, false);
+insert into employees (name, email, salary, is_manager) values ('Marketa Nazaret', 'mnazaretc@sitemeter.com', 22237.57, true);
+insert into employees (name, email, salary, is_manager) values ('Gwennie Connichie', 'gconnichied@toplist.cz', 96280.9, false);
+insert into employees (name, email, salary, is_manager) values ('Elvina Grunnill', 'egrunnille@pen.io', 76752.35, null);
 
 
 
+-- DML statements
+SELECT * FROM Employees;
+
+-- Update some records
+-- UPDATE table SET column=newValue WHERE identifier
+UPDATE employees SET salary = 1.07 * salary, is_manager = TRUE WHERE employee_id=15;
+
+-- DELETE 
+-- DELETE FROM table WHERE identifier
+-- We'll remove all employees who have a salary less than 20k
+DELETE FROM employees WHERE salary < 20000;
+
+-- DELETE vs DROP vs TRUNCATE
+/*
+ * TRUNCATE
+ * 	- Removes all the data from a table and leaves the table structure behind
+ * 	- DDL
+ * DROP
+ * 	- Removes the table and all of its associated data
+ * 	- DDL
+ * DELETE
+ * 	- Deletes individual rows from the table itself based off some criteria
+ * 	- DML
+ * 	- NOTE: Just saying 'DELETE FROM table' with no WHERE clause is the same as a truncate
+ */
+
+-- DQL
+-- Data Query Language and it refers to the various clauses we can add on to a SELECT statement
+
+-- SELECT All
+SELECT * FROM employees;
+
+-- SELECT specific columns
+SELECT name, email FROM employees;
+
+-- WHERE for basic filtering
+SELECT * FROM employees WHERE salary > 80000;
+
+-- ORDER BY
+-- Allows you to order by a column, default ordering is ascending
+SELECT * FROM employees ORDER BY salary;
+-- We can reverse the ordering by descending the column
+SELECT * FROM employees ORDER BY salary DESC;
 
 
+-- We can use BETWEEN to specify upper and lower bounds on a column
+SELECT * FROM EMPLOYEES WHERE salary > 30000 AND salary < 50000;
+SELECT * FROM EMPLOYEES WHERE salary BETWEEN 30000 AND 50000;
+
+-- Offsetting and Limiting
+-- We can LIMIT the amount of results that are returned by using limit
+-- Let's show our top 5 earners
+SELECT name, salary FROM EMPLOYEES ORDER BY SALARY DESC LIMIT 5;
+-- Now we can also offset this amount, so let's say I want the second lowest earner in the table
+SELECT name, salary FROM employees ORDER BY SALARY LIMIT 1 OFFSET 1;
+-- OFFSET cuts records from the top of the result set and LIMIT cuts off the bottom
+SELECT name, salary FROM employees ORDER BY SALARY OFFSET 1 LIMIT 1;
 
 
+-- Like and ILIKE
+-- Like and ILIKE are used for text pattern matching
+-- Let's say I wanted all of the employees whose name begins with B
+SELECT * FROM EMPLOYEES WHERE NAME LIKE 'B%';
+-- What is happening here? The % is an operator that means 0-any number of characters
+-- This will return all records that start with the character B and any number of characters afterwards
+-- _ specifies a single character that can be any value
+-- Let's get all people who have e as the second letter in their name
+SELECT * FROM employees WHERE NAME LIKE '_e%';
+-- I can put the wild cards pretty much wherever I want
+-- People with emails who end in .com
+SELECT email FROM employees WHERE email LIKE '%.com';
+
+-- All people whose name have the letter r
+SELECT name FROM employees WHERE name LIKE '%r%';
+
+-- It's important to note that Like is case sensitive
+SELECT name FROM employees WHERE name LIKE '%b%';
+
+-- Use ILIKE (ignore case like) to perform this operation without case sensitivity
+SELECT name FROM employees WHERE name ILIKE '%b%';
 
 
+-- IN is used during filtering to check if something belongs in a list of values
+SELECT * FROM employees WHERE employee_id IN (1,2,3,7,9);
 
 
 
