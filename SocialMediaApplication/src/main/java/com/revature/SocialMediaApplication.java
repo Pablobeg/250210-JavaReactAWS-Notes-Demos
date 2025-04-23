@@ -34,6 +34,28 @@ public class SocialMediaApplication {
 
 	Annotations are going to be a big piece of using Spring Boot and various Spring Projects so we'll try to keep
 	track of all of them
+
+	Spring Core:
+	- Stereotype Annotations
+		- @Component
+		- @Repository
+		- @Service
+		- @Controller
+
+	Spring Data JPA:
+	- JPA Annotations
+		- @Entity
+		- @Table
+		- @Column
+		- @Id
+		- @GeneratedValue
+		- @ManyToOne
+		- @ManyToMany
+		- @OneToMany
+		- @OneToOne
+		- @JoinColumn
+		- @JoinTable
+		- @Enumerated -> Used for enums
 	 */
 
 }
