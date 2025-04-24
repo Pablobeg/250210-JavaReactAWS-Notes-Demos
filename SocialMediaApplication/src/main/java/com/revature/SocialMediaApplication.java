@@ -56,6 +56,19 @@ public class SocialMediaApplication {
 		- @JoinColumn
 		- @JoinTable
 		- @Enumerated -> Used for enums
+
+	Spring Web:
+		- @RequestBody
+		- @PathVariable
+		- @RequestParam
+		- @ResponseBody
+		- @Get/Post/Put/Patch/DeleteMapping
+		- @RequestMapping
+		- @RestController
+		- @ResponseStatus
+		- @ExceptionHandler
+		- @RestControllerAdvice
+		- @CrossOrigin -> Used to configure CORS policies
 	 */
 
 }

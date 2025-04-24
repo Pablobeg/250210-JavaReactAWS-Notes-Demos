@@ -122,13 +122,13 @@ public class UserController {
         return userService.updateUser(user);
     }
 
-    @ExceptionHandler(UnauthenticatedException.class)
-    @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
-    public Map<String, String> unauthenticatedExceptionHandler(UnauthenticatedException e){
-        return Map.of(
-                "error", e.getMessage()
-        );
-    }
+//    @ExceptionHandler(UnauthenticatedException.class)
+//    @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
+//    public Map<String, String> unauthenticatedExceptionHandler(UnauthenticatedException e){
+//        return Map.of(
+//                "error", e.getMessage()
+//        );
+//    }
 
 
 }
